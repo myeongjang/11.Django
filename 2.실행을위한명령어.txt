@@ -1,0 +1,22 @@
+C:\0.ITStudy\11.Django\django1\mysite>activate djangoenv
+
+(djangoenv) C:\0.ITStudy\11.Django\django1\mysite>python manage.py makemigrations
+.....
+
+(djangoenv) C:\0.ITStudy\11.Django\django1\mysite>python manage.py migrate
+......
+
+(djangoenv) C:\0.ITStudy\11.Django\django1\mysite>python manage.py runserver
+Performing system checks...
+System check identified no issues (0 silenced).
+December 04, 2018 - 12:57:07
+....
+
+
+서버 실행 확인 후 브라우저 실행
+1. admin 화면
+	http://127.0.0.1:8000/admin
+	id : admin
+ 	pw : adminmysite
+
+2. http://127.0.0.1:8000/myapp/
