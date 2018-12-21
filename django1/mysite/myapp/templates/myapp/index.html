@@ -1,3 +1,34 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+div {
+  margin-bottom: 15px;
+  padding: 4px 12px;
+}
+
+.danger {
+  background-color: #ffdddd;
+  border-left: 6px solid #f44336;
+}
+
+.success {
+  background-color: #ddffdd;
+  border-left: 6px solid #4CAF50;
+}
+
+.info {
+  background-color: #e7f3fe;
+  border-left: 6px solid #2196F3;
+}
+
+
+.warning {
+  background-color: #ffffcc;
+  border-left: 6px solid #ffeb3b;
+}
+</style>
+</head>
+
+<body>
 <h1>index.html</h1>
 
 <hr>
@@ -6,12 +37,29 @@
 {% if latest_question_list %}
     <ul>
         {% for question in latest_question_list %}
-            <li><a href='/myapp/{{question.id}}/'>{{question.question_text}}</a></li>
+            <div class="danger">
+                <li><a href='/myapp/{{question.id}}/'>{{question.question_text}}</a></li>
+            </div>
         {% endfor%}
     </ul>
 {% else %}
     <p>myapp을 이용할 수 없음</p>
 {% endif %}
+
+<!-- 
+    1. 로직의 필요성
+        - 응답을 위한 화면 담당 처리 로직
+    2. views의 index에서 DB의 검색 데이터를 dict로 생성해서 저장된 데이터
+        {'latest_question_list': latest_question_list}
+    3. html의 구성
+        - 반복, pthon 데이터 처리를 위한 django tag
+            태그 표시 : 반복 조건등의 처리 tag
+            {{변수}} : 변수 데이터 화면에 출력
+        - 화면의 구성 : html 
+        - 화면의 디자인 적은 요소 : css
+        - 동적화면 구성 및 숫자, 문자 등의 검증 등 : javascript(js)
+-->
+
 
 <hr>
 <h3>비동기 처리</h3>
@@ -56,3 +104,4 @@
     });
   })
 </script>
+</body>

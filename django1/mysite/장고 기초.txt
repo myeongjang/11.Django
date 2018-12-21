@@ -1,0 +1,67 @@
+http://127.0.0.1:8000/myapp/
+	- index.html
+
+1. 파일 저장 위치
+		-myapp\templates\myapp
+			      |
+			      |
+                                       건들지 마
+
+2. url이 index.html을 인지하는 흐름 파악 
+http://127.0.0.1:8000/myapp/
+
+mysite/settings.py
+
+  ....
+   INSTALLED_APPS = [
+    ........
+    'myapp',   #myapp 생성후 추가한 부분
+]
+
+mysite/urls.py
+
+-myapp이라는 앱 하위에 views라는 모듈
+:myapp/views.py 파일 의미
+from myapp import views
+
+urlpatterns = [
+  path('admin/',admin.site.urls), #http://127.0.0.1:8000/admin
+  path('myapp/',include('myapp.urls'), #http://127.0.0.1:8000/myapp
+]
+1.include("myapp.urls")- myapp이라는 앱 하위의 urls.py의미
+-방대해질 수 있는 웹의 로직의 설정 구정을 분산
+- mysite를 통해서 생성시킨 myapp을 다른 프로젝서도 병합해서 사용 가능
+(재사용-모듈화 -컴포넌트)
+2. "admin/"or"myapp/" 처리는 이미 실행중이 서버의 설정 정보와 병합되어 진행
+  -runserver가 구동시 django에처리 로직에 한해서 http://ip:port는 기본적으로 인지
+  -server의 ip는 변경 소지가 다수 존재
+	path('admin/',admin.site.urls) - 권장 설정
+	path('http://127.0.0.1:8000/admin/',admin.site.urls)- 비추 설정
+
+3. include('myapp.urls')로 지정된 urls.py
+   1.myapp 생성시 자동으로 생성되지 않는 파일
+   2. 직접 개발자가 개발하는 파일
+   3. invlude 함수의 parameter의 경로 및 파일명과 동일
+
+4. myapp/urls.py
+  #http://127.0.0.1:8000/myapp/
+  path(",views.index, name='index'")
+  1. ":url의 일부, 단 기준은 mysite/urls.py에서 설정값 제외한 부분"
+	mysite/urls.py에서 설정되었던 값은
+	path("myapp/", include("myapp.urls")), #http://127.0.0.1:8000/myapp
+  
+  2.views.index 
+	myapp/views.py 파일의 index라는 사용자 정의 함수
+	-index는 요청 받고 응답 처리
+
+5. 용어정리
+   - 서버: 서비스 주체, 제공, 응답 <---http----> 클라이언트 : 서비스 받는 주체, 요청
+   - 웹 서버는 client와 통신시에 요청이 발생되면 개별 client 별 HttpRequest.
+HttpResponse를 자동 생성
+
+6.django의 tag 
+   1. 확장자가 html 파일에서도 사용 가능
+   2. 반복문, 조건문 과 같은 제어기능의 로직 처리 tag? {% %}
+   3. 데이터를 보유하고 있는 변수의 값을 출력시 사용하는 tag? {{변수}}
+   4. java의 DAO+DTO(Value Object=java Bean)와 같은 구조의 코드들이 생략
+     - 생략 
