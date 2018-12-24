@@ -1,8 +1,10 @@
+
+<head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 div {
   margin-bottom: 15px;
-  padding: 4px 12px;
+  padding: 4px 20px;
 }
 
 .danger {
@@ -20,45 +22,78 @@ div {
   border-left: 6px solid #2196F3;
 }
 
-
 .warning {
   background-color: #ffffcc;
   border-left: 6px solid #ffeb3b;
+}
+
+a{
+    text-decoration:none
 }
 </style>
 </head>
 
 <body>
-<h1>index.html</h1>
+    <h1>index.html</h1>
 
-<hr>
-<br>
+    <hr>
+    <br>
+    <!-- 
+        django의 로직 처리 tag
+        만일 이 html을 요청한 이전 py에서 latest_question_list의 
+        데이터가 존재할 경우 조건 block 실행    
+     -->
+    {% if latest_question_list %}
+        <ul>
+            {% for question in latest_question_list %}
 
-{% if latest_question_list %}
-    <ul>
-        {% for question in latest_question_list %}
-            <div class="danger">
+              <div class="success">
+
+               <!--
+                    <li><a href='/myapp/7/'>좋아하는 과목은?</a></li>
+                    <li><a href='/myapp/5/'>좋아하는 과일은?</a></li>
+                    <li><a href='/myapp/6/'>좋아하는 운동은?</a></li>
+
+                    index.html
+                     - http://ip:8000/myapp/index.html
+                     - http://ip:8000/myapp
+                        <a href='/myapp/5/'>좋아하는 과일은?</a> 클릭시
+                        : http://127.0.0.1:8000/myapp/5/ 
+
+                     - ** 발생 가능한 문제점
+                        - url 처리 오류
+                        <a href='myapp/{{question.id}}/'>
+                         : http://127.0.0.1:8000/myapp/myapp/5/
+               -->
                 <li><a href='/myapp/{{question.id}}/'>{{question.question_text}}</a></li>
-            </div>
-        {% endfor%}
-    </ul>
-{% else %}
-    <p>myapp을 이용할 수 없음</p>
-{% endif %}
+              
+              </div>
+
+            {% endfor%}
+        </ul>
+    {% else %}
+        <p>myapp을 이용할 수 없음</p>
+    {% endif %}
+
+<div class="info">
+  사용자 이름 : {{myname}}
+</div>
 
 <!-- 
-    1. 로직의 필요성
-        - 응답을 위한 화면 담당 처리 로직
-    2. views의 index에서 DB의 검색 데이터를 dict로 생성해서 저장된 데이터
+1. 로직의 필요성
+    1. 응답을 위한 화면 담당 처리 로직
+    2. views의 index에서 DB의 검색 데이터를 dict 로 생성해서 저장된 데이터  
         {'latest_question_list': latest_question_list}
-    3. html의 구성
-        - 반복, pthon 데이터 처리를 위한 django tag
-            태그 표시 : 반복 조건등의 처리 tag
-            {{변수}} : 변수 데이터 화면에 출력
-        - 화면의 구성 : html 
-        - 화면의 디자인 적은 요소 : css
-        - 동적화면 구성 및 숫자, 문자 등의 검증 등 : javascript(js)
--->
+    3. html 의 구성
+        1. 반복,  python 데이터 처리를 위한 django tag 
+            - 반복 조건등의 처리 tag   
+            - 변수 데이터 화면에 출력
+        2. 화면의 구성 - html
+        3. 화면의 디자인 적인 요소 : css 
+        4. 동적화면 구성 및  숫자, 문자 등의 검증등 : java script(js)
+ -->
+
+
 
 
 <hr>
@@ -88,6 +123,7 @@ div {
 <script type="text/javascript">
   $(".like").click(function(){
     var pk = $(this).attr('name')
+    
     $.ajax({ // .like 버튼을 클릭하면 <새로고침> 없이 ajax로 서버와 통신하겠다.
       type: "POST", // 데이터를 전송하는 방법을 지정
       url: "{% url 'myapp:ajaxRes' %}", // 통신할 url을 지정

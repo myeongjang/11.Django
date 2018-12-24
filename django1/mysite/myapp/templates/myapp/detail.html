@@ -8,6 +8,7 @@
 
 {% if error_message %} <p><strong>{{error_message}}</strong></p>{% endif %}
 
+<!-- django code -->
 <form action="{% url 'myapp:vote' question.id %}" method="post">
     {% csrf_token %}
     {% for choice in question.choice_set.all %}
@@ -15,32 +16,63 @@
         <label for="choice{{forloop.counter}}">{{choice.choice_text}}</label><br />
     {% endfor %}
 
+    <!-- input tag 추가 -->
+    <input type="text" name="myname" value="조명장----"><br>
+    <input type="hidden" name="hiddenTag" value="비밀이야기">
+    
+    <input type="submit" name="awesome" value="좋아요">
+    <input type="submit"name="awesome" value="싫어요">
+    
+</form>
+
+<br><hr><br>
+<!-- html 주석 --> {# django 주석 #}
+<!-- friends 라는 key로 매핑된 친구들 이름을 화면 출력 -->
+{% for name in friends %}
+    {{forloop.counter}}명 - {{name}}<br>
+{% endfor %}
+
+<!-- html 브라우저에 출력된 tag -->
+<!--
+get 방식으로 서버에 요청
+    http://127.0.0.1:8000/myapp/5/vote?choice=5
+
+post 방식으로 서버에 요청
+    http://127.0.0.1:8000/myapp/5/vote
+
+
+<form action="/myapp/5/vote/" method="post">
+    <input type="hidden" name="csrfmiddlewaretoken" value="t17Gix7IUCrQKntfdToWeHXYA87dDLVl1ObtOhh2OKVCAbiyGg4YWAPwrySMxGtv">
+    
+    <input type="radio" name="choice" id="choice1" value="5" />
+    <label for="choice1">사과</label><br />
+
+    <input type="radio" name="choice" id="choice2" value="6" />
+    <label for="choice2">귤</label><br />
+
+    <input type="radio" name="choice" id="choice3" value="7" />
+    <label for="choice3">오렌지</label><br />
     <input type="submit" value="전송">
 </form>
+-->
 
 <!--
 url 변천사
 http://ip:8000/myapp
-    views.py : index 함수
+    views.py : index 함수 
         myapp/index.html : 리스트
         링크 클릭
-http://ip:8000/myapp/1
+http://ip:8000/myapp/5 
     views.py : detail 함수
-        처리 로직 : 5라는 pk 존재한 경우 해당 데이터 검색 및 반환
-                    미존재시 eorror 발생
-            myapp/detail.html
+      처리 로직 : 5라는 pk 존재한 경우 해당 데이터 검색 및 반환
+                 미존재시 error 발생
+            myapp/detail.html 
+
+
 detail.html 구현해야 할 로직
-1. 보이는 화면 구성(html/css...)
+1. 보이는 화면 구성(html/css..)
 2. detail함수에서 전송시킨 데이터 출력
     경우의 수 1 : 정상 검색 완료
-    경우의 수 2 : 404fh 인해 예외 발생
--->>
-<form action="/myapp/3/vote/" method="post">
-    <input type="hidden" name="csrfmiddlewaretoken" value="Tqvb4vV4RM9fizQGv2sH8rX1PcuRnD3BOBvCNvIc7mE77GalQg6neLZHWBXmc6K4">
-    
-        <input type="radio" name="choice" id="choice1" value="3" />
-        <label for="choice1">파이돈</label><br />
-    
+    경우의 수 2 : 404 로 인해 예외 발생 
 
-    <input type="submit" value="전송">
-</form>
+-->
