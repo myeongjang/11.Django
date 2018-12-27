@@ -87,6 +87,11 @@ def vote(request, question_id):
     request.session['myname'] = request.POST['myname']
     request.session['hiddenTag'] = request.POST['hiddenTag']
    
+    if request.POST['myname'] =='좋아요':
+       selected_choice.votes +=1
+    elif request.POST['myname'] == '싫어요':
+       selected_choice.votes -= 1
+
     #1씩 증가되는 counting 데이터 제작
     selected_choice.votes += 1
     #DB에 반영
