@@ -13,5 +13,6 @@ urlpatterns=[
     #http://127.0.0.1:8000/myapp/1/vote/
     path('<int:question_id>/vote/', views.vote, name='vote'),
     #http://127.0.0.1:8000/myapp/ajaxreq
-    path('ajaxreq/', views.ajaxRes, name='ajaxRes') 
+    path('ajaxreq/', views.ajaxRes, name='ajaxRes'), 
+    path('myAjaxReq/', views.myReqRes, name='myReqRes')
 ]
